@@ -49,17 +49,10 @@ int main(int ac, char** av) {
 
     saf_header_t hdr;
     hdr.mag = SAF_MAG;
-    hdr.version = SAF_VERSION_PACK(2, 0, 0);
+    hdr.version = SAF_VERSION;
     hdr.cmpr = 1;
     hdr.bits = 32;
     hdr.sample_type = SAMPLE_TYPE_FLOAT;
-
-    // note to self lmoa: need to configure
-    // 1. sample_rate
-    // 2. channels
-    // 3. size
-    // 4. nsamples
-    // actuallly write the damn smaples too lol
 
     size_t fsz;
     uint8_t* fdata = readfdata(av[1], &fsz);
