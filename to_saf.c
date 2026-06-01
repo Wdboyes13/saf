@@ -54,13 +54,6 @@ int main(int ac, char** av) {
     hdr.bits = 32;
     hdr.sample_type = SAMPLE_TYPE_FLOAT;
 
-    // note to self lmoa: need to configure
-    // 1. sample_rate
-    // 2. channels
-    // 3. size
-    // 4. nsamples
-    // actuallly write the damn smaples too lol
-
     size_t fsz;
     uint8_t* fdata = readfdata(av[1], &fsz);
 
