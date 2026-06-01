@@ -1,5 +1,5 @@
 # SAF File Format
-Version 2.0.0  
+Version 3.0.0  
 by Wdboyes13  
 
 ## Abstract
@@ -26,7 +26,7 @@ contains data which dictates the format of the data following it.
 ## Format
 
 A SAF file MUST be structured as a HEADER followed by DATA.  
-All data SHOULD stored in little-endian format.  
+All data SHOULD stored in little-endian format. The header should be in a "packed" form (it previously wasn't).  
 
 ## Header
 
@@ -54,9 +54,9 @@ typedef struct {
  uint8_t bits;
  uint8_t sample_type;
  uint8_t cmpr;
- uint32_t size;
- uint32_t nsamples;
-} saf_header_t;
+ uint64_t size;
+ uint64_t nsamples;
+} __attribute__((packed)) saf_header_t;
 ```
 
 A SAF file MUST begin with this header and all fields within.
@@ -87,9 +87,9 @@ This contains the type of samples that are contained. The values are the followi
 The `cmpr` field is set to either 0 (UNCOMPRESSED) or 1 (COMPRESSED)  
 to indicate if the data is compressed (see section 4).  
 
-The `size` field indicates the total size of the PCM data.  
+The `size` field indicates the total size of the PCM data. This field was previously 32-bits but has been changed to 64.  
 
-The `nsamples` filed indicates the number of samples contained in the data section of the file.  
+The `nsamples` filed indicates the number of samples contained in the data section of the file. This field was previously 32-bits but has been changed to 64.  
 
 ## Data Section
 

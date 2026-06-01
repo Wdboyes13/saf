@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #define SAF_MAG 0x53414600 // SAF\0
-#define SAF_VERSION_PACK(MAG, MIN, PATCH) (((major) << 22) | ((minor) << 12) | (patch))
+#define SAF_VERSION_PACK(MAJ, MIN, PATCH) (((MAJ) << 22) | ((MIN) << 12) | (PATCH))
 #define SAF_VERSION_UNPACK(VER, PMAG, PMIN, PPATCH) \
     {                                               \
         *PMAG = (VER >> 22) & 0x3FF;                \
@@ -26,8 +26,8 @@ typedef struct {
     uint8_t bits;
     uint8_t sample_type;
     uint8_t cmpr;
-    uint32_t size;
-    uint32_t nsamples;
-} saf_header_t;
+    uint64_t size;
+    uint64_t nsamples;
+} __attribute__((packed)) saf_header_t;
 
 #endif

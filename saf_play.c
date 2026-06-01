@@ -5,8 +5,8 @@
 #include <stdlib.h>
 
 #include <zstd.h>
-#include "miniaudio.h"
 #include "saf.h"
+#include "vendor/miniaudio.h"
 
 typedef struct {
     void* data;
@@ -111,9 +111,15 @@ int main(int ac, char** av) {
             return 1;
         }
 
-        size_t sz = ZSTD_decompress(sample_data, hdr->size, &data[sizeof(*hdr)], fsz - sizeof(*hdr));
+        size_t sz = ZSTD_decompress(
+            sample_data,
+            hdr->size,
+            &data[sizeof(*hdr)],
+            fsz - sizeof(*hdr));
+
         if (ZSTD_isError(sz)) {
-            fprintf(stderr, "decompression error: %s\n", ZSTD_getErrorName(sz));
+            fprintf(stderr, "decompression error: %s (%d)\n", ZSTD_getErrorString(sz), ZSTD_getErrorCode(sz));
+            fprintf(stderr, "Destination capacity: %u\nEstimated compressed size: %lu\n", hdr->size, fsz - sizeof(*hdr));
             exit(1);
         }
     } else {
