@@ -119,7 +119,6 @@ int main(int ac, char** av) {
 
         if (ZSTD_isError(sz)) {
             fprintf(stderr, "decompression error: %s (%d)\n", ZSTD_getErrorString(sz), ZSTD_getErrorCode(sz));
-            fprintf(stderr, "Destination capacity: %u\nEstimated compressed size: %lu\n", hdr->size, fsz - sizeof(*hdr));
             exit(1);
         }
     } else {

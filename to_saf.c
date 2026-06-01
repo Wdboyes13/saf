@@ -75,7 +75,7 @@ int main(int ac, char** av) {
         hdr.sample_rate = wav.sampleRate;
         hdr.channels = wav.channels;
         hdr.nsamples = wav.totalPCMFrameCount;
-        samples = malloc(sizeof(float) * hdr.nsamples);
+        samples = malloc(sizeof(float) * hdr.nsamples * hdr.channels);
         if (!samples) {
             perror("");
             free(fdata);
@@ -85,8 +85,16 @@ int main(int ac, char** av) {
     } else if (drmp3_init_memory(&mp3, fdata, fsz, NULL)) {
         hdr.sample_rate = mp3.sampleRate;
         hdr.channels = mp3.channels;
+
+        if (mp3.totalPCMFrameCount == ~0ULL || mp3.totalPCMFrameCount == 0) {
+            fprintf(stderr, "MP3 number of samples unknown, cannot allocate\n");
+            fprintf(stderr, "Try converting to WAV/FLAC first\n");
+            free(fdata);
+            return 1;
+        }
+
         hdr.nsamples = mp3.totalPCMFrameCount;
-        samples = malloc(sizeof(float) * hdr.nsamples);
+        samples = malloc(sizeof(float) * hdr.nsamples * hdr.channels);
         if (!samples) {
             perror("");
             free(fdata);
@@ -97,7 +105,7 @@ int main(int ac, char** av) {
         hdr.sample_rate = flac->sampleRate;
         hdr.channels = flac->channels;
         hdr.nsamples = flac->totalPCMFrameCount;
-        samples = malloc(sizeof(float) * hdr.nsamples);
+        samples = malloc(sizeof(float) * hdr.nsamples * hdr.channels);
         if (!samples) {
             perror("");
             free(fdata);

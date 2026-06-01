@@ -2,3 +2,6 @@
 *.saf
 *.mp3
 *.flac
+*.dSYM
+.clangd
+test/
