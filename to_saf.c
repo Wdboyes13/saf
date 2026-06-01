@@ -49,7 +49,7 @@ int main(int ac, char** av) {
 
     saf_header_t hdr;
     hdr.mag = SAF_MAG;
-    hdr.version = SAF_VERSION_PACK(2, 0, 0);
+    hdr.version = SAF_VERSION;
     hdr.cmpr = 1;
     hdr.bits = 32;
     hdr.sample_type = SAMPLE_TYPE_FLOAT;
