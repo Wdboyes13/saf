@@ -1,5 +1,5 @@
 # SAF File Format
-Version 3.0.0  
+Version 3.0.1  
 by Wdboyes13  
 
 ## Abstract
@@ -26,7 +26,8 @@ contains data which dictates the format of the data following it.
 ## Format
 
 A SAF file MUST be structured as a HEADER followed by DATA.  
-All data SHOULD stored in little-endian format. The header should be in a "packed" form (it previously wasn't).  
+All data SHOULD stored in little-endian format. The header should be in a "packed" form.  
+All multi-byte integers are little-endian encoded.  
 
 ## Header
 
@@ -34,7 +35,7 @@ The SAF header is defined by the C structure:
 
 ```c
 #define SAF_MAG 0x53414600 // SAF\0
-#define SAF_VERSION_PACK(MAG, MIN, PATCH) (((major) << 22) | ((minor) << 12) | (patch))
+#define SAF_VERSION_PACK(MAJ, MIN, PATCH) (((MAJ) << 22) | ((MIN) << 12) | (PATCH))
 #define SAF_VERSION_UNPACK(VER, PMAG, PMIN, PPATCH) \
     {                                               \
         *PMAG = (VER >> 22) & 0x3FF;                \
@@ -67,8 +68,7 @@ The `mag` field is "magic bytes" used to identify this as a SAF file.
 It contains the NULL-terminated ASCII string "SAF" or simple the  
 hexadecimal number 0x53414600. This is the same as SAF_MAG.  
 
-The `version` field is a breaking changed introduced in this version.  
-It contains the current SAF version encoded using the SAF_VERSION_PACK macro  
+The `version` field contains the current SAF version encoded using the SAF_VERSION_PACK macro  
 and decoded using the SAF_VERSION_UNPACK macro.  
 
 The `sample_rate` field contains the PCM audio data "sample rate" or the  
@@ -78,8 +78,7 @@ The `channels` field contains the number of audio channels in the data.
 
 The `bits` field contains the number of bits each PCM sample is.  
 
-The `sample_type` field is a breaking changge introduced in this version.  
-This contains the type of samples that are contained. The values are the following:  
+The `sample_type` contains the type of samples that are contained. The values are the following:  
 - SAMPLE_TYPE_SINT for signed integers.
 - SAMPLE_TYPE_UINT for unsigned integers.
 - SAMPLE_TYPE_FLOAT for floating point numbers.  
@@ -93,8 +92,8 @@ The `nsamples` filed indicates the number of samples contained in the data secti
 
 ## Data Section
 
-The data section of a SAF file contains `bits` wide interleaved PCM audio data.  
-If the `cmpr` field of the header is set, this data is compressed using the Zstandard format.  
+The data section of a SAF file contains `bits` wide interleaved PCM audio data. Samples are interleaved from LEFT to RIGHT channels.  
+If the `cmpr` field of the header is set, this data is compressed using the Zstandard format. ZStandard parameters are implementation defined.  
 
 ## License
 

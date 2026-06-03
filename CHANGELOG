@@ -1,0 +1,17 @@
+v1 => v2
+
+Cleared up some stuff in the spec.
+Retracted SAF from IETF RFCs to allow for constant iteration.
+Added `sample_type` and `version` fields.
+
+v2 => v3
+Made `saf_header_t` a packed struct.
+
+v3 => v3.0.1
+Fixed `SAF_VERSION_PACK` macro.
+Removed "this is a breaking change" lines.  
+Created changelog, information before this version may be innacurate and is provided to the best of my memory.
+Added clarification on multiple things including:
+- encoding of multi-byte values
+- ZStandard parameters (now explicitly implementation defined)
+- interleaving order of PCM samples

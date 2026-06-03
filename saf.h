@@ -12,7 +12,7 @@
         *PPATCH = (VER) & 0xFFF                     \
     }
 
-#define SAF_VERSION SAF_VERSION_PACK(3, 0, 0)
+#define SAF_VERSION SAF_VERSION_PACK(3, 0, 1)
 
 #define SAMPLE_TYPE_SINT 0
 #define SAMPLE_TYPE_UINT 1
